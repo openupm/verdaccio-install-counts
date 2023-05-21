@@ -1,0 +1,42 @@
+{
+  "name": "verdaccio-download-counts",
+  "version": "0.0.1",
+  "description": "The package provides public api that gives you download counts by package and time range.",
+  "main": "lib/src/index.js",
+  "types": "lib/src/index.d.ts",
+  "engines": {
+    "node": ">=12"
+  },
+  "dependencies": {
+    "@verdaccio/commons-api": "10.2.0",
+    "express": "4.18.1",
+    "ioredis": "^5.3.2",
+    "lodash": "^4.17.21",
+    "semver": "^7.5.1"
+  },
+  "devDependencies": {
+    "@types/express": "4.17.13",
+    "@types/jest": "27.5.1",
+    "@types/node": "12.12.5",
+    "@typescript-eslint/eslint-plugin": "5.26.0",
+    "@typescript-eslint/parser": "5.26.0",
+    "@verdaccio/types": "10.5.2",
+    "cross-env": "^7.0.3",
+    "eslint": "8.21.0",
+    "jest": "28.1.3",
+    "ts-jest": "^28.0.8",
+    "typescript": "4.7.4"
+  },
+  "keywords": [
+    "verdaccio,download,counts,stats,statistics,verdaccio-"
+  ],
+  "license": "MIT",
+  "repository": "openupm/download-counts",
+  "author": "Favo Yang <https://github.com/favoyang>",
+  "scripts": {
+    "build": "tsc",
+    "build-dev": "tsc -w",
+    "test": "cross-env NODE_ENV=test jest",
+    "lint": "eslint \"**/*.{js,ts}\""
+  }
+}

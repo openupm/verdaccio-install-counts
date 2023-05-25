@@ -2,6 +2,7 @@
 
 <!-- vscode-markdown-toc -->
 * [Introduction](#Introduction)
+* [Install](#Install)
 * [API endpoints](#APIendpoints)
 	* [Point values](#Pointvalues)
 		* [Parameters](#Parameters)
@@ -29,6 +30,23 @@ The stats data is stored in Redis, using [RedisTimeSeries](https://redis.io/docs
 
 Note that this package does not include a widget for the Verdaccio web UI.
 
+## <a name='Install'></a>Install
+
+Install the package.
+```
+npm install verdaccio-download-counts
+```
+
+Update the `middlewares` seciton of verdaccio's `config.yaml`.
+```
+middlewares:
+  download-counts:
+    enabled: true
+    redis:
+      host: 127.0.0.1
+      port: 6379
+	  password: ...
+```
 
 ## <a name='APIendpoints'></a>API endpoints
 

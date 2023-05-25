@@ -1,6 +1,6 @@
 // Unit tests for utils.ts
 import { InvalidDateRangeError } from '../src/constants';
-import { getEpochTimeForUTCMidnight, getWeekRange, parsePeriod, parseUTCDateString, shiftToUTCMidnight, shiftToUTCMidnightMinusOneMillisecond } from '../src/utils';
+import { getEpochTimeForUTCMidnight, getVersionFromTarball, getWeekRange, parsePeriod, parseUTCDateString, shiftToUTCMidnight, shiftToUTCMidnightMinusOneMillisecond } from '../src/utils';
 
 describe('getWeekRange', () => {
   // Unit tests for getWeekRange
@@ -94,5 +94,31 @@ describe('parsePeriod', () => {
     const [startDate, endDate] = parsePeriod(period);
     expect(startDate.toISOString()).toEqual(shiftToUTCMidnight(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)).toISOString());
     expect(endDate.toISOString()).toEqual(shiftToUTCMidnightMinusOneMillisecond(new Date()).toISOString());
+  });
+});
+
+describe('getVersionFromTarball', () => {
+  it('should return the version number from the tarball name', () => {
+    const name = 'test-package-1.0.0.tgz';
+    const result = getVersionFromTarball(name);
+    expect(result).toEqual('1.0.0');
+  });
+
+  it('should return undefined if the tarball name does not contain a version number', () => {
+    const name = 'test-package.tgz';
+    const result = getVersionFromTarball(name);
+    expect(result).toBeUndefined();
+  });
+
+  it('should return undefined if the tarball name is not in the correct format', () => {
+    const name = 'test-package-1.0.0.zip';
+    const result = getVersionFromTarball(name);
+    expect(result).toBeUndefined();
+  });
+
+  it('should return the version number from the tarball name with preview version', () => {
+    const name = 'com.de-panther.webxr-interactions-0.12.0-preview.tgz';
+    const result = getVersionFromTarball(name);
+    expect(result).toEqual('0.12.0-preview');
   });
 });

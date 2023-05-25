@@ -39,6 +39,7 @@
     "build-dev": "tsc -w",
     "test": "cross-env NODE_ENV=test jest",
     "lint": "eslint \"**/*.{js,ts}\"",
-    "update-lastmonth": "ts-node src/bin/update-lastmonth.ts"
+    "update-lastmonth": "ts-node src/bin/update-lastmonth.ts",
+    "import-csv": "ts-node scripts/import-csv.ts"
   }
 }

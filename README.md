@@ -2,7 +2,6 @@
 
 <!-- vscode-markdown-toc -->
 * [Introduction](#Introduction)
-* [Features](#Features)
 * [API endpoints](#APIendpoints)
 	* [Point values](#Pointvalues)
 		* [Parameters](#Parameters)
@@ -30,12 +29,6 @@ The stats data is stored in Redis, using [RedisTimeSeries](https://redis.io/docs
 
 Note that this package does not include a widget for the Verdaccio web UI.
 
-## <a name='Features'></a>Features
-
-- API to fetch weekly, monthly, and lifetime download counts for a package
-- API to fetch the last 30 days' download counts for a package
-- Bar chart for the last 30 days' download counts for a package
-<!-- - Package list sorted by monthly downloads -->
 
 ## <a name='APIendpoints'></a>API endpoints
 

@@ -2,7 +2,7 @@ import _ from 'lodash';
 import Redis from "ioredis";
 
 import { Logger, IPluginMiddleware, IBasicAuth, IStorageManager, Package, PluginOptions } from '@verdaccio/types';
-import { getEpochTimeForUTCMidnight, getPackageAsync, getPackageNameFromTarball, getVersion, getVersionFromTarball, parsePeriod, redisCreateClient } from './utils';
+import { getEpochTimeForUTCMidnight, getPackageAsync, parsePackageNameFromTarball, getVersion, parseVersionFromTarballFilename, parsePeriod, redisCreateClient } from './utils';
 import { Application } from 'express';
 
 import { CustomConfig } from '../types/index';
@@ -33,8 +33,8 @@ export default class VerdaccioMiddlewarePlugin implements IPluginMiddleware<Cust
       const self = this;
       const packageName = req.params.package;
       const fileName = req.params.filename;
-      let queryVersion = getVersionFromTarball(fileName) || undefined;
-      let parsedPackageName = getPackageNameFromTarball(fileName);
+      let queryVersion = parseVersionFromTarballFilename(fileName);
+      let parsedPackageName = parsePackageNameFromTarball(fileName);
       try {
         const metadata = await getPackageAsync(_storage, {
           name: packageName,

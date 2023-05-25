@@ -8,23 +8,25 @@ import { CustomConfig } from '../types';
 import { InvalidDateRangeError } from './constants';
 
 /**
- * Return package version from tarball name
+ * Parse the package version from tarball filename
  * @param {String} name
  * @returns {String}
  */
-export function getVersionFromTarball(name: string): string | void {
+export function parseVersionFromTarballFilename(name: string): string | void {
   // FIXME: we know the regex is valid, but we should improve this part as ts suggest
   // @ts-ignore
-  return /.+-(\d.+)\.tgz/.test(name) ? name.match(/.+-(\d.+)\.tgz/)[1] : undefined;
+  const version = /.+-(\d.+)\.tgz/.test(name) ? name.match(/.+-(\d.+)\.tgz/)[1] : undefined;
+  if (version && semver.valid(version)) return version;
 }
 
 /**
- * Get the package name from tarball filename
+ * Parse the package name from tarball filename
  * @param name tarball filname
  * @returns package name
  */
-export function getPackageNameFromTarball(name: string): string {
-  return name.split('-')[0];
+export function parsePackageNameFromTarball(name: string): string | void {
+  const version = parseVersionFromTarballFilename(name);
+  if (version) return name.split(`-${version}`)[0];
 }
 
 /**

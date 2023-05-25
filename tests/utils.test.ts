@@ -1,6 +1,6 @@
 // Unit tests for utils.ts
 import { InvalidDateRangeError } from '../src/constants';
-import { getEpochTimeForUTCMidnight, getVersionFromTarball, getWeekRange, parsePeriod, parseUTCDateString, shiftToUTCMidnight, shiftToUTCMidnightMinusOneMillisecond } from '../src/utils';
+import { getEpochTimeForUTCMidnight, parseVersionFromTarballFilename, getWeekRange, parsePeriod, parseUTCDateString, shiftToUTCMidnight, shiftToUTCMidnightMinusOneMillisecond, parsePackageNameFromTarball } from '../src/utils';
 
 describe('getWeekRange', () => {
   // Unit tests for getWeekRange
@@ -97,28 +97,54 @@ describe('parsePeriod', () => {
   });
 });
 
-describe('getVersionFromTarball', () => {
+describe('parseVersionFromTarballFilename', () => {
   it('should return the version number from the tarball name', () => {
     const name = 'test-package-1.0.0.tgz';
-    const result = getVersionFromTarball(name);
+    const result = parseVersionFromTarballFilename(name);
     expect(result).toEqual('1.0.0');
   });
 
   it('should return undefined if the tarball name does not contain a version number', () => {
     const name = 'test-package.tgz';
-    const result = getVersionFromTarball(name);
+    const result = parseVersionFromTarballFilename(name);
     expect(result).toBeUndefined();
   });
 
   it('should return undefined if the tarball name is not in the correct format', () => {
     const name = 'test-package-1.0.0.zip';
-    const result = getVersionFromTarball(name);
+    const result = parseVersionFromTarballFilename(name);
     expect(result).toBeUndefined();
   });
 
   it('should return the version number from the tarball name with preview version', () => {
     const name = 'com.de-panther.webxr-interactions-0.12.0-preview.tgz';
-    const result = getVersionFromTarball(name);
+    const result = parseVersionFromTarballFilename(name);
     expect(result).toEqual('0.12.0-preview');
+  });
+
+  it('should return undefined from the tarball name with invalid version', () => {
+    const name = 'com.de-panther.webxr-interactions-0.12.0.1.tgz';
+    const result = parseVersionFromTarballFilename(name);
+    expect(result).toBeUndefined();
+  });
+});
+
+describe('parsePackageNameFromTarball', () => {
+  it('should return the package name from the tarball name', () => {
+    const name = 'test-package-1.0.0.tgz';
+    const result = parsePackageNameFromTarball(name);
+    expect(result).toEqual('test-package');
+  });
+
+  it('should return the package name from the tarball name with multiple hyphens', () => {
+    const name = 'test-package-name-1.0.0.tgz';
+    const result = parsePackageNameFromTarball(name);
+    expect(result).toEqual('test-package-name');
+  });
+
+  it('should return undefined from the tarball name with no version number', () => {
+    const name = 'test-package.tgz';
+    const result = parsePackageNameFromTarball(name);
+    expect(result).toBeUndefined();
   });
 });

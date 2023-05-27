@@ -29,3 +29,4 @@ echo "Redis parameters: ${redis_params}"
 echo "TS.QUERYINDEX category=tspkghit:daily" | redis-cli ${redis_params} | cut -d" " -f2 | sed 's/^/DEL /' | redis-cli
 echo "DEL zpkghit:alltime" | redis-cli
 echo "DEL zpkghit:lastmonth" | redis-cli
+echo "SCAN 0 MATCH pkghit:ver:* COUNT 1000000" | redis-cli ${redis_params} | cut -d" " -f2 | sed 's/^/DEL /' | redis-cli

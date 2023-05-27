@@ -18,7 +18,7 @@ for file in $files; do
   else
     cat $file
   fi
-done | grep GET | grep 'tgz HTTP' | grep -v ' 404' | while read line; do
+done | grep GET | grep 'tgz HTTP' | grep ' 302' | while read line; do
   # Extract the IP address, HTTP method, package name, version, and timestamp
   ip=$(echo "$line" | awk '{print $1}')
   tarballFilename=$(echo "$line" | awk '{print $7}' | cut -d '/' -f 4)

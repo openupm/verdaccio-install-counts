@@ -2,7 +2,7 @@ import _ from 'lodash';
 import Redis from "ioredis";
 
 import { Logger, IPluginMiddleware, IBasicAuth, IStorageManager, Package, PluginOptions } from '@verdaccio/types';
-import { getEpochTimeForUTCMidnight, getPackageAsync, parsePackageNameFromTarball, getVersion, parseVersionFromTarballFilename, parsePeriod, redisCreateClient } from './utils';
+import { getPackageAsync, parsePackageNameFromTarball, getVersion, parseVersionFromTarballFilename, parsePeriod, redisCreateClient, updateRedisOnPackageDownload, getPackageDownloadTimeSeriesResults } from './utils';
 import { Application } from 'express';
 
 import { CustomConfig } from '../types/index';
@@ -44,24 +44,8 @@ export default class VerdaccioMiddlewarePlugin implements IPluginMiddleware<Cust
         });
         let version = getVersion(metadata, queryVersion);
         if (_.isNil(version) === false && parsedPackageName === packageName) {
-          // this.logger.debug('[download-counts] packageName: ' + packageName);
-          // this.logger.debug('[download-counts] version: ' + version!.version);
           // Update download counts for the package
-          const date = new Date();
-          // Align the date to UTC midnight (00:00:00)
-          const utcMidnightEpoch = getEpochTimeForUTCMidnight(date);
-          try {
-            await self.redisClient.pipeline()
-              // TS.INCRBY tspkghit:daily:<package_name> 1 TIMESTAMP <date> LABELS category tspkghit:daily
-              .call('TS.INCRBY', `tspkghit:daily:${packageName}`, 1, 'TIMESTAMP', utcMidnightEpoch, 'LABELS', 'category', 'tspkghit:daily')
-              // HINCRBY pkghit:ver:<package_name> <version> 1
-              .hincrby(`pkghit:ver:${packageName}`, version!.version, 1)
-              // ZINCRBY zpkghit:alltime 1 <package_name>
-              .zincrby('zpkghit:alltime', 1, packageName)
-              .exec();
-          } catch (err) {
-            self.logger.error(err);
-          }
+          await updateRedisOnPackageDownload(self.redisClient, packageName, version!.version, new Date(), self.logger);
         }
         // Always call next() to continue processing the request, even if there is an error updating the download counts
         next();
@@ -69,28 +53,6 @@ export default class VerdaccioMiddlewarePlugin implements IPluginMiddleware<Cust
         next(err);
       }
     });
-
-    /**
-     * Helper function to get the Redis TimeSeries results for a given period for a specific package
-     * @param startDate start date
-     * @param endDate end date
-     * @param packageName name of the package
-     * @returns query array (Array<[string, string]> | null) with time bucket of 1 day
-     */
-    const getRedisTimeSeriesResults = async (startDate: Date, endDate: Date, packageName: String): Promise<Array<[string, string]> | null> => {
-      // Get the total downloads for the package in the period
-      const results = await this.redisClient.call(
-        'TS.RANGE',
-        `tspkghit:daily:${packageName}`,
-        startDate.getTime().toString(),
-        endDate.getTime().toString(),
-        'AGGREGATION',
-        'SUM',
-        // The time bucket is 1 day
-        '86400000'
-      ) as Array<[string, string]> | null;
-      return results;
-    }
 
     // Endpoint to get total downloads for a given period for a specific package
     app.get('/downloads/point/:period/:package', async (req, res) => {
@@ -106,7 +68,7 @@ export default class VerdaccioMiddlewarePlugin implements IPluginMiddleware<Cust
           abbreviated: false
         });
         // this.logger.debug(`[download-counts] metadata: ${JSON.stringify(metadata)}`);
-        const results = await getRedisTimeSeriesResults(startDate, endDate, packageName);
+        const results = await getPackageDownloadTimeSeriesResults(self.redisClient, startDate, endDate, packageName);
         let totalDownloads = 0;
         if (results !== null) {
           for (const [timestamp, count] of results) {
@@ -146,7 +108,7 @@ export default class VerdaccioMiddlewarePlugin implements IPluginMiddleware<Cust
           abbreviated: false
         });
         // this.logger.debug(`[download-counts] metadata: ${JSON.stringify(metadata)}`);
-        const results = await getRedisTimeSeriesResults(startDate, endDate, packageName);
+        const results = await getPackageDownloadTimeSeriesResults(self.redisClient, startDate, endDate, packageName);
         const downloads: { day: string; downloads: number }[] = [];
         if (results !== null) {
           const dateMap = new Map<string, number>();

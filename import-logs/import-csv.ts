@@ -7,7 +7,7 @@
 import { env } from "process";
 import readline from 'readline';
 import Redis from "ioredis";
-import { getEpochTimeForUTCMidnight, parsePackageNameFromTarball, parseVersionFromTarballFilename } from "../src/utils";
+import { getEpochTimeForUTCMidnight, parsePackageNameFromTarball, parseVersionFromTarballFilename, updateRedisOnPackageDownload } from "../src/utils";
 
 interface DownloadEvent {
   packageName: string;
@@ -56,22 +56,7 @@ async function importCSV(redisClient: Redis) {
     if (line === '') continue;
     const event = parseDownloadEvent(line);
     if (event) {
-      const packageName = event.packageName;
-      const version = event.version;
-      const utcMidnightEpoch = getEpochTimeForUTCMidnight(event.timestamp);
-      try {
-        // Save the event to Redis
-        await redisClient.pipeline()
-          // TS.INCRBY tspkghit:daily:<package_name> 1 TIMESTAMP <date> LABELS category tspkghit:daily
-          .call('TS.INCRBY', `tspkghit:daily:${packageName}`, 1, 'TIMESTAMP', utcMidnightEpoch, 'LABELS', 'category', 'tspkghit:daily')
-          // HINCRBY pkghit:ver:<package_name> <version> 1
-          .hincrby(`pkghit:ver:${packageName}`, version, 1)
-          // ZINCRBY zpkghit:alltime 1 <package_name>
-          .zincrby('zpkghit:alltime', 1, packageName)
-          .exec();
-      } catch (error) {
-        console.error(error);
-      }
+      await updateRedisOnPackageDownload(redisClient, event.packageName,  event.version, event.timestamp);
     }
   }
 }

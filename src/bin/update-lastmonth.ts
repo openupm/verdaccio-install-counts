@@ -1,4 +1,4 @@
-import { shiftToUTCMidnight } from '../utils';
+import { getPackageDownloadTimeSeriesResults, shiftToUTCMidnight } from '../utils';
 import { createRedisClient } from './cli-utils';
 
 /**
@@ -26,23 +26,15 @@ async function getUniquePackageNames(redisClient): Promise<string[]> {
 async function updateLastMonth(redisClient) {
   // Connect to Redis
   const packages = await getUniquePackageNames(redisClient);
-
   const endDate = shiftToUTCMidnight(new Date());
   const startDate = shiftToUTCMidnight(new Date(endDate.getTime() - 30 * 24 * 60 * 60 * 1000)); // 30 days ago
+  console.log(`startDate: ${startDate}`);
+  console.log(`endDate: ${endDate}`);
 
   // Iterate over all packages
   for (const packageName of packages) {
     // Query the time series data for the package
-    const results = await redisClient.call(
-      'TS.RANGE',
-      `tspkghit:daily:${packageName}`,
-      startDate.getTime().toString(),
-      endDate.getTime().toString(),
-      'AGGREGATION',
-      'SUM',
-      // The time bucket is 1 day
-      '86400000'
-    ) as Array<[string, string]> | null;
+    const results = await getPackageDownloadTimeSeriesResults(redisClient, startDate, endDate, packageName);
     // Calculate the total downloads for the last month
     let totalDownloads = 0;
     if (results !== null) {

@@ -230,3 +230,55 @@ export function parsePeriod(period: string): Array<Date> {
   // self.logger.debug(`[download-counts] endDate: ${endDate.toISOString()}`);
   return [startDate, endDate];
 }
+
+/**
+ * Update the Redis database with the given package download event
+ * @param redisClient redis client
+ * @param packageName package name
+ * @param version package version
+ * @param date date of the download event
+ * @param logger optional logger
+ * @returns results of the Redis pipeline
+ */
+export async function updateRedisOnPackageDownload(redisClient: Redis, packageName: string, version: string, date: Date, logger?: any): Promise<any> {
+  const utcMidnightEpoch = getEpochTimeForUTCMidnight(date);
+  // Save the event to Redis
+  const results = await redisClient.pipeline()
+    // TS.ADD tspkghit:daily:<package_name> <date> 1 ON_DUPLICATE sum LABELS category tspkghit:daily pkgname <package_name>
+    .call('TS.ADD', `tspkghit:daily:${packageName}`, utcMidnightEpoch, 1, 'ON_DUPLICATE', 'sum', 'LABELS', 'category', 'tspkghit:daily', 'pkgname', packageName)
+    // HINCRBY pkghit:ver:<package_name> <version> 1
+    .hincrby(`pkghit:ver:${packageName}`, version, 1)
+    // ZINCRBY zpkghit:alltime 1 <package_name>
+    .zincrby('zpkghit:alltime', 1, packageName)
+    .exec();
+  if (results != null) {
+    var obj = results[0][0];
+    if (obj != null && obj instanceof Error) {
+      if (logger) logger.error(obj);
+      else console.error(obj);
+    }
+  }
+  return results;
+}
+
+/**
+ * Get Redis TimeSeries results for a given period for a specific package
+ * @param startDate start date
+ * @param endDate end date
+ * @param packageName name of the package
+ * @returns query array (Array<[string, string]> | null) with time bucket of 1 day
+ */
+export async function getPackageDownloadTimeSeriesResults(redisClient: Redis, startDate: Date, endDate: Date, packageName: String): Promise<Array<[string, string]> | null> {
+  // Get the total downloads for the package in the period
+  const results = await redisClient.call(
+    'TS.RANGE',
+    `tspkghit:daily:${packageName}`,
+    startDate.getTime().toString(),
+    endDate.getTime().toString(),
+    'AGGREGATION',
+    'SUM',
+    // The time bucket is 1 day
+    '86400000'
+  ) as Array<[string, string]> | null;
+  return results;
+}

@@ -131,7 +131,7 @@ The stats data is stored in Redis using timeseries, hashes or sorted sets.
 
 Timeseries for daily download counts for a specific package.
 ```
-tspkghit:daily:<package_name> <timestamp_utc> <count> LABELS category tspkghit:daily
+tspkghit:daily:<package_name> <timestamp_utc> <count> LABELS category tspkghit:daily pkgname <package_name>
 ```
 
 ### <a name='Hashes'></a>Hashes
@@ -156,6 +156,6 @@ zpkghit:lastmonth <count> <package_name>
 ## <a name='Cron'></a>Cron
 
 The `zpkghit:lastmonth` sorted set requries a cron job:
-```
+```bash
 VERDACCIO_CONFIG=config.yaml npm run update-lastmonth
 ```

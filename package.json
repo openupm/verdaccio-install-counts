@@ -37,7 +37,7 @@
     "stats",
     "statistics"
   ],
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "repository": "openupm/download-counts",
   "author": "Favo Yang <https://github.com/favoyang>",
   "scripts": {

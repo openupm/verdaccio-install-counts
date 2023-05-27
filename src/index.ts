@@ -100,7 +100,7 @@ export default class VerdaccioMiddlewarePlugin implements IPluginMiddleware<Cust
       const { period, package: packageName } = req.params;
       try {
         const [startDate, endDate] = parsePeriod(period);
-        this.logger.debug(`[download-counts] startDate: ${startDate.toISOString()}, endDate: ${endDate.toISOString()}`);
+        // this.logger.debug(`[download-counts] startDate: ${startDate.toISOString()}, endDate: ${endDate.toISOString()}`);
         const metadata = await getPackageAsync(_storage, {
           name: packageName,
           uplinksLook: true,

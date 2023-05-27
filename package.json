@@ -38,7 +38,7 @@
     "statistics"
   ],
   "license": "BSD-3-Clause",
-  "repository": "openupm/download-counts",
+  "repository": "openupm/verdaccio-download-counts",
   "author": "Favo Yang <https://github.com/favoyang>",
   "scripts": {
     "build": "tsc",

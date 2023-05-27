@@ -269,16 +269,22 @@ export async function updateRedisOnPackageDownload(redisClient: Redis, packageNa
  * @returns query array (Array<[string, string]> | null) with time bucket of 1 day
  */
 export async function getPackageDownloadTimeSeriesResults(redisClient: Redis, startDate: Date, endDate: Date, packageName: String): Promise<Array<[string, string]> | null> {
-  // Get the total downloads for the package in the period
-  const results = await redisClient.call(
-    'TS.RANGE',
-    `tspkghit:daily:${packageName}`,
-    startDate.getTime().toString(),
-    endDate.getTime().toString(),
-    'AGGREGATION',
-    'SUM',
-    // The time bucket is 1 day
-    '86400000'
-  ) as Array<[string, string]> | null;
-  return results;
+  try {
+    // Get the total downloads for the package in the period
+    const results = await redisClient.call(
+      'TS.RANGE',
+      `tspkghit:daily:${packageName}`,
+      startDate.getTime().toString(),
+      endDate.getTime().toString(),
+      'AGGREGATION',
+      'SUM',
+      // The time bucket is 1 day
+      '86400000'
+    ) as Array<[string, string]> | null;
+    return results;
+  } catch (err) {
+    if ((err! as Error).message !== "ERR TSDB: the key does not exist")
+      console.error(err);
+    return null;
+  }
 }

@@ -4,22 +4,22 @@
 * [Introduction](#Introduction)
 * [Install](#Install)
 * [API endpoints](#APIendpoints)
-	* [Point values](#Pointvalues)
-		* [Parameters](#Parameters)
-		* [Output](#Output)
-	* [Ranges](#Ranges)
-		* [Parameters](#Parameters-1)
-		* [Output](#Output-1)
+    * [Point values](#Pointvalues)
+        * [Parameters](#Parameters)
+        * [Output](#Output)
+    * [Ranges](#Ranges)
+        * [Parameters](#Parameters-1)
+        * [Output](#Output-1)
 * [Redis data structure](#Redisdatastructure)
-	* [Timeseries](#Timeseries)
-	* [Hashes](#Hashes)
-	* [Sorted sets](#Sortedsets)
+    * [Timeseries](#Timeseries)
+    * [Hashes](#Hashes)
+    * [Sorted sets](#Sortedsets)
 * [Cron](#Cron)
 
 <!-- vscode-markdown-toc-config
-	numbering=false
-	autoSave=true
-	/vscode-markdown-toc-config -->
+    numbering=false
+    autoSave=true
+    /vscode-markdown-toc-config -->
 <!-- /vscode-markdown-toc -->
 
 ## <a name='Introduction'></a>Introduction
@@ -45,7 +45,7 @@ middlewares:
     redis:
       host: 127.0.0.1
       port: 6379
-	  password: ...
+      password: ...
 ```
 
 ## <a name='APIendpoints'></a>API endpoints
@@ -106,20 +106,20 @@ Responses are very similar to the point API, except that downloads is now an arr
 
 ```javascript
 {
-	"downloads": [
-		{
-			"day": "2023-01-01",
-			"downloads": 540
-		},
-		..
-		{
-			"day": "2023-01-31",
-			"downloads": 425
-		}
-	],
-	"start": "2023-01-01",
-	"end": "2023-01-31",
-	"package": "com.example.package"
+    "downloads": [
+        {
+            "day": "2023-01-01",
+            "downloads": 540
+        },
+        ..
+        {
+            "day": "2023-01-31",
+            "downloads": 425
+        }
+    ],
+    "start": "2023-01-01",
+    "end": "2023-01-31",
+    "package": "com.example.package"
 }
 ```
 

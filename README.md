@@ -55,7 +55,7 @@ middlewares:
 Gets the total downloads for a given period for a specific package.
 
 ```
-GET https://package.openupm.com/downloads/point/{period}/{package}
+GET https://127.0.0.1:4873/downloads/point/{period}/{package}
 ```
 
 #### <a name='Parameters'></a>Parameters
@@ -93,7 +93,7 @@ JSON output:
 Gets the downloads per day for a given period for a specific package.
 
 ```
-GET https://package.openupm.com/downloads/range/{period}/{package}
+GET https://127.0.0.1:4873/downloads/range/{period}/{package}
 ```
 
 #### <a name='Parameters-1'></a>Parameters

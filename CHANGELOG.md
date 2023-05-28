@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/openupm/verdaccio-install-counts/compare/1.0.1...1.0.2) (2023-05-28)
+
+
+### Bug Fixes
+
+* range endpoint fills missing dates ([880f710](https://github.com/openupm/verdaccio-install-counts/commit/880f71023e24e464a6e3827b3ad9752bb9497c93))
+
 ## [1.0.1](https://github.com/openupm/verdaccio-install-counts/compare/1.0.0...1.0.1) (2023-05-28)
 
 

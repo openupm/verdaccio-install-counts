@@ -1,5 +1,5 @@
 {
-  "name": "verdaccio-download-counts",
+  "name": "verdaccio-install-counts",
   "version": "1.0.0",
   "description": "The package provides public api that gives you download counts by package and time range.",
   "main": "lib/src/index.js",
@@ -34,11 +34,12 @@
   "keywords": [
     "verdaccio",
     "download counts",
+    "install counts",
     "stats",
     "statistics"
   ],
   "license": "BSD-3-Clause",
-  "repository": "openupm/verdaccio-download-counts",
+  "repository": "openupm/verdaccio-install-counts",
   "author": "Favo Yang <https://github.com/favoyang>",
   "scripts": {
     "build": "tsc",

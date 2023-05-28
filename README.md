@@ -1,4 +1,4 @@
-# verdaccio-download-counts
+# verdaccio-install-counts
 
 <!-- vscode-markdown-toc -->
 * [Introduction](#Introduction)
@@ -24,7 +24,7 @@
 
 ## <a name='Introduction'></a>Introduction
 
-This package implements API endpoints for download counts similar to [the ones](https://raw.githubusercontent.com/npm/registry/master/docs/download-counts.md) provided by npm, but limited to a specific package.
+This package implements API endpoints for package download counts similar to [the ones](https://raw.githubusercontent.com/npm/registry/master/docs/install-counts.md) provided by npm, but limited to a specific package.
 
 The stats data is stored in Redis, using [RedisTimeSeries](https://redis.io/docs/stack/timeseries/). Please refer to the [Redis data structure](#redis-data-structure) section for more information.
 
@@ -34,13 +34,13 @@ Note that this package does not include a widget for the Verdaccio web UI.
 
 Install the package.
 ```
-npm install verdaccio-download-counts
+npm install verdaccio-install-counts
 ```
 
 Update the `middlewares` seciton of verdaccio's `config.yaml`.
 ```
 middlewares:
-  download-counts:
+  install-counts:
     enabled: true
     redis:
       host: 127.0.0.1

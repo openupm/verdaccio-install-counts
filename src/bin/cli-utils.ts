@@ -37,7 +37,7 @@ export function readVerdaccioConfig(): any {
 export function createRedisClient(): Redis {
   const verdaccioConfig = readVerdaccioConfig();
   const middlewares = verdaccioConfig['middlewares']
-  const downloadCounts = middlewares['download-counts'];
+  const downloadCounts = middlewares['install-counts'];
   let redisOptions = {};
   if ('redis' in downloadCounts)
     redisOptions = downloadCounts['redis'];

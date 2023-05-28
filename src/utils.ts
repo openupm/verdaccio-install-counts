@@ -61,29 +61,29 @@ export function getVersion(pkg: Package, version: any): Version | void {
 export function redisCreateClient(config: string | RedisOptions, logger: Logger): Redis {
   const client = new Redis(config as any);
   client.on('connect', function () {
-    logger.warn('[download-counts] connected to redis server');
+    logger.warn('[install-counts] connected to redis server');
   });
 
   client.on("ready", function () {
-    logger.warn("[download-counts] ready to use");
-    logger.warn("[download-counts] set enableOfflineQueue to false to make following web requests fail instantly when redis connection is down");
+    logger.warn("[install-counts] ready to use");
+    logger.warn("[install-counts] set enableOfflineQueue to false to make following web requests fail instantly when redis connection is down");
     client.options.enableOfflineQueue = false;
   });
 
   client.on('reconnecting', function (delay) {
-    logger.warn({ delay }, '[download-counts] reconnecting in @{delay}ms');
+    logger.warn({ delay }, '[install-counts] reconnecting in @{delay}ms');
   });
 
   client.on('end', function () {
-    logger.warn('[download-counts] redis connection end');
+    logger.warn('[install-counts] redis connection end');
   });
 
   client.on('close', function () {
-    logger.warn('[download-counts] redis connection close');
+    logger.warn('[install-counts] redis connection close');
   });
 
   client.on('error', function (err) {
-    logger.error({ err }, '[download-counts] redis error @{err}');
+    logger.error({ err }, '[install-counts] redis error @{err}');
   });
 
   return client;
@@ -226,8 +226,8 @@ export function parsePeriod(period: string): Array<Date> {
   // Make sure that startDate is before endDate
   if (startDate > endDate)
     endDate = startDate;
-  // self.logger.debug(`[download-counts] startDate: ${startDate.toISOString()}`);
-  // self.logger.debug(`[download-counts] endDate: ${endDate.toISOString()}`);
+  // self.logger.debug(`[install-counts] startDate: ${startDate.toISOString()}`);
+  // self.logger.debug(`[install-counts] endDate: ${endDate.toISOString()}`);
   return [startDate, endDate];
 }
 

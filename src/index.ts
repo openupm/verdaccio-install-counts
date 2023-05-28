@@ -60,14 +60,14 @@ export default class VerdaccioMiddlewarePlugin implements IPluginMiddleware<Cust
       const { period, package: packageName } = req.params;
       try {
         const [startDate, endDate] = parsePeriod(period);
-        // this.logger.debug(`[download-counts] startDate: ${startDate.toISOString()}, endDate: ${endDate.toISOString()}`);
+        // this.logger.debug(`[install-counts] startDate: ${startDate.toISOString()}, endDate: ${endDate.toISOString()}`);
         const metadata = await getPackageAsync(_storage, {
           name: packageName,
           uplinksLook: true,
           req,
           abbreviated: false
         });
-        // this.logger.debug(`[download-counts] metadata: ${JSON.stringify(metadata)}`);
+        // this.logger.debug(`[install-counts] metadata: ${JSON.stringify(metadata)}`);
         const results = await getPackageDownloadTimeSeriesResults(self.redisClient, startDate, endDate, packageName);
         let totalDownloads = 0;
         if (results !== null) {
@@ -100,14 +100,14 @@ export default class VerdaccioMiddlewarePlugin implements IPluginMiddleware<Cust
       const { period, package: packageName } = req.params;
       try {
         const [startDate, endDate] = parsePeriod(period);
-        // this.logger.debug(`[download-counts] startDate: ${startDate.toISOString()}, endDate: ${endDate.toISOString()}`);
+        // this.logger.debug(`[install-counts] startDate: ${startDate.toISOString()}, endDate: ${endDate.toISOString()}`);
         const metadata = await getPackageAsync(_storage, {
           name: packageName,
           uplinksLook: true,
           req,
           abbreviated: false
         });
-        // this.logger.debug(`[download-counts] metadata: ${JSON.stringify(metadata)}`);
+        // this.logger.debug(`[install-counts] metadata: ${JSON.stringify(metadata)}`);
         const results = await getPackageDownloadTimeSeriesResults(self.redisClient, startDate, endDate, packageName);
         const downloads: { day: string; downloads: number }[] = [];
         if (results !== null) {

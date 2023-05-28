@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/openupm/verdaccio-install-counts/compare/1.0.0...1.0.1) (2023-05-28)
+
+
+### Bug Fixes
+
+* rebrand to verdaccio-install-counts to avoid npm rejection ([8202061](https://github.com/openupm/verdaccio-install-counts/commit/8202061fd484abca52a09209c0ffaf6af6e4ed3c))
+
 # 1.0.0 (2023-05-27)
 
 

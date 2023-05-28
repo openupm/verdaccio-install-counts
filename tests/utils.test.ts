@@ -1,6 +1,6 @@
 // Unit tests for utils.ts
 import { InvalidDateRangeError } from '../src/constants';
-import { getEpochTimeForUTCMidnight, parseVersionFromTarballFilename, getWeekRange, parsePeriod, parseUTCDateString, shiftToUTCMidnight, shiftToUTCMidnightMinusOneMillisecond, parsePackageNameFromTarball } from '../src/utils';
+import { getEpochTimeForUTCMidnight, parseVersionFromTarballFilename, getWeekRange, parsePeriod, parseUTCDateString, shiftToUTCMidnight, shiftToUTCMidnightMinusOneMillisecond, parsePackageNameFromTarball, fillMissingDates } from '../src/utils';
 
 describe('getWeekRange', () => {
   // Unit tests for getWeekRange
@@ -146,5 +146,84 @@ describe('parsePackageNameFromTarball', () => {
     const name = 'test-package.tgz';
     const result = parsePackageNameFromTarball(name);
     expect(result).toBeUndefined();
+  });
+});
+
+describe('fillMissingDates', () => {
+  it('should fill in missing dates with a downloads value of 0', () => {
+    const input = [
+      { day: '2023-05-26', downloads: 5 },
+      { day: '2023-05-28', downloads: 1 },
+    ];
+    const expectedOutput = [
+      { day: '2023-05-26', downloads: 5 },
+      { day: '2023-05-27', downloads: 0 },
+      { day: '2023-05-28', downloads: 1 },
+    ];
+    const output = fillMissingDates(input);
+    expect(output).toEqual(expectedOutput);
+  });
+
+  it('should handle an empty input list', () => {
+    const input = [];
+    const expectedOutput = [];
+    const output = fillMissingDates(input);
+    expect(output).toEqual(expectedOutput);
+  });
+
+  it('should handle a single-item input list', () => {
+    const input = [{ day: '2023-05-26', downloads: 5 }];
+    const expectedOutput = [{ day: '2023-05-26', downloads: 5 }];
+    const output = fillMissingDates(input);
+    expect(output).toEqual(expectedOutput);
+  });
+
+  it('should handle a list with no missing dates', () => {
+    const input = [
+      { day: '2023-05-26', downloads: 5 },
+      { day: '2023-05-27', downloads: 3 },
+      { day: '2023-05-28', downloads: 1 },
+    ];
+    const expectedOutput = [
+      { day: '2023-05-26', downloads: 5 },
+      { day: '2023-05-27', downloads: 3 },
+      { day: '2023-05-28', downloads: 1 },
+    ];
+    const output = fillMissingDates(input);
+    expect(output).toEqual(expectedOutput);
+  });
+
+  it('should handle a list with all missing dates', () => {
+    const input = [
+      { day: '2023-05-26', downloads: 5 },
+      { day: '2023-05-28', downloads: 1 },
+      { day: '2023-05-31', downloads: 1 },
+    ];
+    const expectedOutput = [
+      { day: '2023-05-26', downloads: 5 },
+      { day: '2023-05-27', downloads: 0 },
+      { day: '2023-05-28', downloads: 1 },
+      { day: '2023-05-29', downloads: 0 },
+      { day: '2023-05-30', downloads: 0 },
+      { day: '2023-05-31', downloads: 1 },
+    ];
+    const output = fillMissingDates(input);
+    expect(output).toEqual(expectedOutput);
+  });
+
+  it('should handle a list with specified startDate and endDate', () => {
+    const input = [
+      { day: '2023-05-28', downloads: 1 },
+    ];
+    const expectedOutput = [
+      { day: '2023-05-26', downloads: 0 },
+      { day: '2023-05-27', downloads: 0 },
+      { day: '2023-05-28', downloads: 1 },
+      { day: '2023-05-29', downloads: 0 },
+      { day: '2023-05-30', downloads: 0 },
+      { day: '2023-05-31', downloads: 0 },
+    ];
+    const output = fillMissingDates(input, new Date('2023-05-26'), new Date('2023-05-31'));
+    expect(output).toEqual(expectedOutput);
   });
 });

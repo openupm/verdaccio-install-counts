@@ -288,3 +288,44 @@ export async function getPackageDownloadTimeSeriesResults(redisClient: Redis, st
     return null;
   }
 }
+
+function minDate(a: Date, b: Date): Date {
+  return a < b ? a : b;
+}
+
+function maxDate(a: Date, b: Date): Date {
+  return a > b ? a : b;
+}
+
+/**
+ * Fill in missing dates in a list of discrete stats objects with a downloads value of 0
+ * @param discreteStats List of discrete stats objects with a format of { "day": "yyyy-mm-dd", "downloads": <number> }
+ * @param startDate optional start date
+ * @param endDate optional end date
+ * @returns List of discrete stats objects with the missing dates filled in with a downloads value of 0
+ */
+export function fillMissingDates(discreteStats: { day: string; downloads: number }[], startDate?: Date, endDate?: Date): { day: string; downloads: number }[] {
+  if (discreteStats.length === 0) return [];
+  const filledStats: { day: string; downloads: number }[] = [];
+  if (startDate === undefined)
+    startDate = new Date(discreteStats[0].day);
+  else
+    startDate = minDate(startDate, new Date(discreteStats[0].day));
+  if (endDate === undefined)
+    endDate = new Date(discreteStats[discreteStats.length - 1].day);
+  else
+    endDate = maxDate(endDate, new Date(discreteStats[discreteStats.length - 1].day));
+  let currentDate = startDate;
+  let currentIndex = 0;
+  while (currentDate <= endDate) {
+    const currentDay = currentDate.toISOString().substring(0, 10);
+    if (currentIndex < discreteStats.length && discreteStats[currentIndex].day === currentDay) {
+      filledStats.push(discreteStats[currentIndex]);
+      currentIndex++;
+    } else {
+      filledStats.push({ day: currentDay, downloads: 0 });
+    }
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+  return filledStats;
+}

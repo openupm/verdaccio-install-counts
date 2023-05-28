@@ -2,7 +2,7 @@ import _ from 'lodash';
 import Redis from "ioredis";
 
 import { Logger, IPluginMiddleware, IBasicAuth, IStorageManager, Package, PluginOptions } from '@verdaccio/types';
-import { getPackageAsync, parsePackageNameFromTarball, getVersion, parseVersionFromTarballFilename, parsePeriod, redisCreateClient, updateRedisOnPackageDownload, getPackageDownloadTimeSeriesResults } from './utils';
+import { getPackageAsync, parsePackageNameFromTarball, getVersion, parseVersionFromTarballFilename, parsePeriod, redisCreateClient, updateRedisOnPackageDownload, getPackageDownloadTimeSeriesResults, fillMissingDates } from './utils';
 import { Application } from 'express';
 
 import { CustomConfig } from '../types/index';
@@ -126,7 +126,7 @@ export default class VerdaccioMiddlewarePlugin implements IPluginMiddleware<Cust
         }
         // Return the daily download counts for the package in the period
         const response = {
-          downloads,
+          downloads: fillMissingDates(downloads, startDate, endDate),
           start: startDate.toISOString().substring(0, 10),
           end: endDate.toISOString().substring(0, 10),
           package: packageName,

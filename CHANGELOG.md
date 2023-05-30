@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/openupm/verdaccio-install-counts/compare/1.0.2...1.0.3) (2023-05-30)
+
+
+### Bug Fixes
+
+* remove startDate and endDate arguments of fillMissingDates ([384bc26](https://github.com/openupm/verdaccio-install-counts/commit/384bc265130f3724fb2a3f6c3d5ccf191a6f2298))
+
 ## [1.0.2](https://github.com/openupm/verdaccio-install-counts/compare/1.0.1...1.0.2) (2023-05-28)
 
 

@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/openupm/verdaccio-install-counts/compare/1.0.3...1.1.0) (2023-05-30)
+
+
+### Features
+
+* add verdaccio-install-counts-update-lastmonth cli ([b56ec95](https://github.com/openupm/verdaccio-install-counts/commit/b56ec95fe4ccfc496842858125efec37fd3e2faf))
+
 ## [1.0.3](https://github.com/openupm/verdaccio-install-counts/compare/1.0.2...1.0.3) (2023-05-30)
 
 

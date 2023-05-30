@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import Redis from 'js-yaml';
+import Redis from 'ioredis';
 import yaml from 'js-yaml';
 
 /**

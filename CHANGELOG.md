@@ -1,3 +1,12 @@
+## [1.1.1](https://github.com/openupm/verdaccio-install-counts/compare/1.1.0...1.1.1) (2023-05-30)
+
+
+### Bug Fixes
+
+* add missing deps ([da560af](https://github.com/openupm/verdaccio-install-counts/commit/da560afc078f5e01eb9c6280e03d5e326efc16e3))
+* add missing deps ([cea9b6d](https://github.com/openupm/verdaccio-install-counts/commit/cea9b6d122c303702cdd7416da7c106c551b0821))
+* typo ([126af25](https://github.com/openupm/verdaccio-install-counts/commit/126af25ace2cbae44678f09667383b8cd124e551))
+
 # [1.1.0](https://github.com/openupm/verdaccio-install-counts/compare/1.0.3...1.1.0) (2023-05-30)
 
 

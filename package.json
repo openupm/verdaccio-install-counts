@@ -5,7 +5,7 @@
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
   "bin": {
-    "install-counts-update-lastmonth": "lib/src/bin/update-lastmonth.js"
+    "verdaccio-install-counts-update-lastmonth": "bin/verdaccio-install-counts-update-lastmonth"
   },
   "engines": {
     "node": ">=12"

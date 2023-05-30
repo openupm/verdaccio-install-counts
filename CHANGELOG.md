@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/openupm/verdaccio-install-counts/compare/1.1.1...1.1.2) (2023-05-30)
+
+
+### Bug Fixes
+
+* edge cases for start and end of install counts endpoint ([baa89b8](https://github.com/openupm/verdaccio-install-counts/commit/baa89b8a1bacfef086f5bbed7eda7efa9c01c835))
+
 ## [1.1.1](https://github.com/openupm/verdaccio-install-counts/compare/1.1.0...1.1.1) (2023-05-30)
 
 

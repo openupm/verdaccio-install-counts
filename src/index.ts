@@ -76,10 +76,12 @@ export default class VerdaccioMiddlewarePlugin implements IPluginMiddleware<Cust
           }
         }
         // Return the total downloads for the package in the period
+        const realStartDate = results === null ? startDate : new Date(Number(results[0][0]));
+        const realEndDate = results === null ? endDate : new Date(Number(results[results.length - 1][0]));
         const response = {
           downloads: totalDownloads,
-          start: startDate.toISOString().substring(0, 10),
-          end: endDate.toISOString().substring(0, 10),
+          start: realStartDate.toISOString().substring(0, 10),
+          end: realEndDate.toISOString().substring(0, 10),
           package: packageName,
         };
         res.json(response);

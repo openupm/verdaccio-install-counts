@@ -126,7 +126,7 @@ export default class VerdaccioMiddlewarePlugin implements IPluginMiddleware<Cust
         }
         // Return the daily download counts for the package in the period
         const response = {
-          downloads: fillMissingDates(downloads, startDate, endDate),
+          downloads: fillMissingDates(downloads),
           start: startDate.toISOString().substring(0, 10),
           end: endDate.toISOString().substring(0, 10),
           package: packageName,

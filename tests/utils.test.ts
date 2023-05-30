@@ -210,20 +210,4 @@ describe('fillMissingDates', () => {
     const output = fillMissingDates(input);
     expect(output).toEqual(expectedOutput);
   });
-
-  it('should handle a list with specified startDate and endDate', () => {
-    const input = [
-      { day: '2023-05-28', downloads: 1 },
-    ];
-    const expectedOutput = [
-      { day: '2023-05-26', downloads: 0 },
-      { day: '2023-05-27', downloads: 0 },
-      { day: '2023-05-28', downloads: 1 },
-      { day: '2023-05-29', downloads: 0 },
-      { day: '2023-05-30', downloads: 0 },
-      { day: '2023-05-31', downloads: 0 },
-    ];
-    const output = fillMissingDates(input, new Date('2023-05-26'), new Date('2023-05-31'));
-    expect(output).toEqual(expectedOutput);
-  });
 });

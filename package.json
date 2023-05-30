@@ -4,6 +4,9 @@
   "description": "The package provides public api that gives you download counts by package and time range.",
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
+  "bin": {
+    "install-counts-update-lastmonth": "lib/src/bin/update-lastmonth.js"
+  },
   "engines": {
     "node": ">=12"
   },

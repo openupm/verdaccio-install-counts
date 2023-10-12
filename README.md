@@ -24,7 +24,7 @@
 
 ## <a name='Introduction'></a>Introduction
 
-This package implements API endpoints for package download counts similar to [the ones](https://raw.githubusercontent.com/npm/registry/master/docs/install-counts.md) provided by npm, but limited to a specific package.
+This package implements API endpoints for package download counts similar to [the ones](https://github.com/npm/registry/blob/master/docs/download-counts.md) provided by npm, but limited to a specific package.
 
 The stats data is stored in Redis, using [RedisTimeSeries](https://redis.io/docs/stack/timeseries/). Please refer to the [Redis data structure](#redis-data-structure) section for more information.
 

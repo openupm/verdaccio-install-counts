@@ -69,15 +69,17 @@ export default class VerdaccioMiddlewarePlugin implements IPluginMiddleware<Cust
         });
         // this.logger.debug(`[install-counts] metadata: ${JSON.stringify(metadata)}`);
         const results = await getPackageDownloadTimeSeriesResults(self.redisClient, startDate, endDate, packageName);
+        const hasResults = results !== null && results.length > 0;
+        this.logger.debug(`[install-counts] results: ${JSON.stringify(results)}`);
         let totalDownloads = 0;
-        if (results !== null) {
+        if (hasResults) {
           for (const [timestamp, count] of results) {
             totalDownloads += Number(count);
           }
         }
         // Return the total downloads for the package in the period
-        const realStartDate = results === null ? startDate : new Date(Number(results[0][0]));
-        const realEndDate = results === null ? endDate : new Date(Number(results[results.length - 1][0]));
+        const realStartDate = hasResults ? new Date(Number(results[0][0])) : startDate;
+        const realEndDate = hasResults ? new Date(Number(results[results.length - 1][0])) : endDate;
         const response = {
           downloads: totalDownloads,
           start: realStartDate.toISOString().substring(0, 10),

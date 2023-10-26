@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/openupm/verdaccio-install-counts/compare/1.1.3...1.1.4) (2023-10-26)
+
+
+### Bug Fixes
+
+* downloads/point endpoint raise server error when a package has no downloads ([f6a3a11](https://github.com/openupm/verdaccio-install-counts/commit/f6a3a11da450baf0c6b8a4b7e688bfcf95395cdf))
+
 ## [1.1.3](https://github.com/openupm/verdaccio-install-counts/compare/1.1.2...1.1.3) (2023-05-30)
 
 

@@ -1,3 +1,10 @@
+## [1.1.5](https://github.com/openupm/verdaccio-install-counts/compare/1.1.4...1.1.5) (2023-10-26)
+
+
+### Bug Fixes
+
+* comment out unused debug log ([34bfd32](https://github.com/openupm/verdaccio-install-counts/commit/34bfd32d65bdd22010d9b6e7e0e91767ce2460b2))
+
 ## [1.1.4](https://github.com/openupm/verdaccio-install-counts/compare/1.1.3...1.1.4) (2023-10-26)
 
 

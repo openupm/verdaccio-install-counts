@@ -70,7 +70,7 @@ export default class VerdaccioMiddlewarePlugin implements IPluginMiddleware<Cust
         // this.logger.debug(`[install-counts] metadata: ${JSON.stringify(metadata)}`);
         const results = await getPackageDownloadTimeSeriesResults(self.redisClient, startDate, endDate, packageName);
         const hasResults = results !== null && results.length > 0;
-        this.logger.debug(`[install-counts] results: ${JSON.stringify(results)}`);
+        // this.logger.debug(`[install-counts] results: ${JSON.stringify(results)}`);
         let totalDownloads = 0;
         if (hasResults) {
           for (const [timestamp, count] of results) {

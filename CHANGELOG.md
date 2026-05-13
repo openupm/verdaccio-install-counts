@@ -1,3 +1,10 @@
+## [1.1.6](https://github.com/openupm/verdaccio-install-counts/compare/1.1.5...1.1.6) (2026-05-13)
+
+
+### Bug Fixes
+
+* trigger trusted publishing test ([1c45a8c](https://github.com/openupm/verdaccio-install-counts/commit/1c45a8caac8b29cdca556f2f97b9ab1e39bc3cff))
+
 ## [1.1.5](https://github.com/openupm/verdaccio-install-counts/compare/1.1.4...1.1.5) (2023-10-26)
 
 

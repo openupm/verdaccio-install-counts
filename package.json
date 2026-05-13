@@ -11,14 +11,11 @@
     "node": ">=12"
   },
   "dependencies": {
-    "@semantic-release/changelog": "^6.0.1",
-    "@semantic-release/git": "^10.0.1",
     "@verdaccio/commons-api": "10.2.0",
     "express": "4.18.1",
     "ioredis": "^5.3.2",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
-    "semantic-release": "^19.0.5",
     "semver": "^7.5.1",
     "ts-node": "^10.9.1"
   },
@@ -43,7 +40,10 @@
     "statistics"
   ],
   "license": "BSD-3-Clause",
-  "repository": "openupm/verdaccio-install-counts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openupm/verdaccio-install-counts.git"
+  },
   "author": "Favo Yang <https://github.com/favoyang>",
   "scripts": {
     "build": "tsc",

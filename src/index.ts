@@ -25,11 +25,7 @@ export default class VerdaccioMiddlewarePlugin implements IPluginMiddleware<Cust
     _storage: IStorageManager<CustomConfig>,
   ): void {
     // Define the middleware to insert before the download endpoint
-    app.use('/:package/-/:filename', async (req, res, next) => {
-      if (req.method === 'HEAD') {
-        next();
-        return;
-      }
+    app.get('/:package/-/:filename', async (req, res, next) => {
       const self = this;
       const packageName = req.params.package;
       const fileName = req.params.filename;

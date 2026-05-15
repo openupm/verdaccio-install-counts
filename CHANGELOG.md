@@ -1,3 +1,10 @@
+## [1.1.7](https://github.com/openupm/verdaccio-install-counts/compare/1.1.6...1.1.7) (2026-05-15)
+
+
+### Bug Fixes
+
+* tarball route middleware on Node 20 ([bf6fe8b](https://github.com/openupm/verdaccio-install-counts/commit/bf6fe8b92f870c9e3ad2abe539cb5ebf3e9005d2))
+
 ## [1.1.6](https://github.com/openupm/verdaccio-install-counts/compare/1.1.5...1.1.6) (2026-05-13)
 
 
